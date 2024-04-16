@@ -3,6 +3,8 @@ import "./App.css"
 import { Formik, useFormik } from 'formik';
 import { useState } from 'react';
 import "./index.css";
+import { IoCheckmarkDoneCircle } from "react-icons/io5";
+
 
 function App() {
   const [todo, setTodo] = useState([])
@@ -10,6 +12,14 @@ function App() {
   const data = useFormik({
     initialValues: {
       content: ""
+    },
+    validate: (values)=>{
+      let errors ={};
+      if (values.content==="") {
+        errors.content="Enter Activity!!!"
+      }
+      return errors;
+
     },
     onSubmit: (values, reset) => {
       values.id = todo.length + 1;
@@ -50,6 +60,7 @@ return (
                   name="content"
                   value={data.values.content}
                   onChange={data.handleChange} />
+                  <span className='note'>{data.errors.content}</span>
               </div>
 
               <div className='mt-2 d-flex justify-content-center'>
@@ -72,8 +83,9 @@ return (
                       <div className='col-lg-4'></div>
                       <div className='col-lg-4 not d-flex justify-content-between'>
                         {values.content}
+
                         <div>
-                          <button className='del btn btn-secondary' onClick={() =>  handleDelete(values.id) }  > submit</button>
+                          <button className='del btn btn-secondary ' onClick={() =>  handleDelete(values.id) }  ><IoCheckmarkDoneCircle /></button>
                         </div>
                       </div>
                     </div>
